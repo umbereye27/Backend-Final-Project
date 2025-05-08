@@ -6,14 +6,14 @@ const authRoutes = require('../src/routes/authRoutes');
 require('dotenv').config();
 
 const app = express();
-const PORT = process.env.PORT || 5000; // Changed to 5000 to avoid conflict with typical frontend ports
+const PORT = process.env.PORT || 5001; // Changed to 5000 to avoid conflict with typical frontend ports
 
 // Comprehensive CORS configuration
 const corsOptions = {
   origin: [
     'http://localhost:3000',   // React default
     'http://localhost:5173',   // Vite default
-    'http://172.31.212.232',   // Localhost alternative
+    'http:// 172.20.10.4',   // Localhost alternative
     'http://localhost:8080'    // Another common port
   ],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
