@@ -3,6 +3,7 @@ const cors = require('cors');
 const path = require('path');
 const mongoose = require('mongoose');
 const authRoutes = require('../src/routes/authRoutes');
+const resultRoutes = require('../src/routes/resultRoutes');
 require('dotenv').config();
 
 const app = express();
@@ -34,32 +35,34 @@ app.use((req, res, next) => {
 
 // Routes
 app.use('/api/auth', authRoutes);
-
+app.use('/api/results', resultRoutes);
 // MongoDB Connection with improved error handling
-mongoose.connect(process.env.MONGO_URI, { 
-  useNewUrlParser: true, 
-  useUnifiedTopology: true 
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
 })
-.then(() => {
-  console.log('✅ Connected to MongoDB');
-  
-  // Start server only after database connection
-  app.listen(PORT, () => {
-    console.log(`🚀 Server running on port ${PORT}`);
-    console.log(`🌐 Environment: ${process.env.NODE_ENV || 'development'}`);
-  });
-})
-.catch(err => {
-  console.error('❌ MongoDB Connection Failed:', err);
-  process.exit(1); // Exit process with failure
-});
+  .then(() => {
+    console.log('✅ Connected to MongoDB');
 
+    // Start server only after database connection
+    app.listen(PORT, () => {
+      console.log(`🚀 Server running on port ${PORT}`);
+      console.log(`🌐 Environment: ${process.env.NODE_ENV || 'development'}`);
+    });
+  })
+  .catch(err => {
+    console.error('❌ MongoDB Connection Failed:', err);
+    process.exit(1); // Exit process with failure
+  });
+app.get('/', (req, res) => {
+  res.json({ message: "Your Welcome to POX Api" })
+})
 // Global error handler
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).json({ 
+  res.status(500).json({
     message: 'Something went wrong!',
-    error: process.env.NODE_ENV === 'production' ? {} : err.message 
+    error: process.env.NODE_ENV === 'production' ? {} : err.message
   });
 });
 
