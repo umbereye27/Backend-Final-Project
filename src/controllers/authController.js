@@ -5,11 +5,12 @@ const User = require("../models/Users");
 require("dotenv").config();
 
 // Configure Nodemailer
+
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
+    user: `${process.env.EMAIL_USER}`,
+    pass: `${process.env.EMAIL_PASS}`,
   },
 });
 
@@ -55,6 +56,8 @@ const signUp = async (req, res) => {
   try {
     // Check for existing user by username or email
     const existingUser = await User.findOne({ $or: [{ username }, { email }] });
+    console.log("User", existingUser);
+
     if (existingUser) {
       return res
         .status(400)
@@ -87,6 +90,7 @@ const signUp = async (req, res) => {
 // SignIn Function (Corrected to use email)
 const signIn = async (req, res) => {
   const { email, password } = req.body;
+  console.log(req.body);
 
   // Validate input fields
   if (!email || !password) {
