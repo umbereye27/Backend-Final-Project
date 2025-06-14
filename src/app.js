@@ -14,7 +14,7 @@ const corsOptions = {
   origin: [
     'http://localhost:3000',   // React default
     'http://localhost:5173',   // Vite default
-    'http:// 172.20.10.4',   // Localhost alternative
+    'http://172.20.10.4',   // Localhost alternative
     'http://localhost:8080'    // Another common port
   ],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
