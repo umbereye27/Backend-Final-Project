@@ -4,6 +4,7 @@ const path = require('path');
 const mongoose = require('mongoose');
 const authRoutes = require('../src/routes/authRoutes');
 const resultRoutes = require('../src/routes/resultRoutes');
+const userRoutes = require('../src/routes/userRoutes');
 require('dotenv').config();
 
 const app = express();
@@ -36,6 +37,7 @@ app.use((req, res, next) => {
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/results', resultRoutes);
+app.use('/api/users', userRoutes);
 // MongoDB Connection with improved error handling
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
