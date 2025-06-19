@@ -4,27 +4,46 @@ const {
     createResult,
     getAllResults,
     getStatistics,
-    getResultsByPrediction
+    getResultsByPrediction,
+    getUserResults,
+    getResultsByUserId,
+    getTimeBasedStats
 } = require('../controllers/resultController');
+const { authenticate, authorize } = require('../middlewares/authMiddleware');
 
 // @route   POST /api/results
 // @desc    Create a new prediction result
 // @access  Public
-router.post('/', createResult);
+router.post('/', authenticate, createResult);
 
 // @route   GET /api/results
 // @desc    Get all prediction results with pagination
 // @access  Public
-router.get('/', getAllResults);
+router.get('/', authenticate, authorize('admin'), getAllResults);
+
+// @route   GET /api/results/my-results
+// @desc    Get current user's results
+// @access  Private (authenticated user)
+router.get('/my-results', authenticate, getUserResults);
+
+// @route   GET /api/results/user/:userId
+// @desc    Get results by specific user ID (admin only)
+// @access  Private (admin only)
+router.get('/user/:userId', authenticate, authorize('admin'), getResultsByUserId);
 
 // @route   GET /api/results/statistics
 // @desc    Get statistics report of all predictions
 // @access  Public
-router.get('/statistics', getStatistics);
+router.get('/statistics', authenticate, authorize('admin'), getStatistics);
+
+// @route   GET /api/results/stats/:period
+// @desc    Get time-based statistics (daily, weekly, monthly, yearly) (admin only)
+// @access  Private (admin only)
+router.get('/stats/:period', authenticate, authorize('admin'), getTimeBasedStats);
 
 // @route   GET /api/results/prediction/:prediction
 // @desc    Get results by specific prediction type
 // @access  Public
-router.get('/prediction/:prediction', getResultsByPrediction);
+router.get('/prediction/:prediction', authenticate, authorize('admin'), getResultsByPrediction);
 
 module.exports = router;
