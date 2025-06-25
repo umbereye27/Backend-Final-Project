@@ -7,7 +7,9 @@ const {
     getResultsByPrediction,
     getUserResults,
     getResultsByUserId,
-    getTimeBasedStats
+    getTimeBasedStats,
+    generateAndDownloadPDFReport,
+    getResultsByDateRange
 } = require('../controllers/resultController');
 const { authenticate, authorize } = require('../middlewares/authMiddleware');
 
@@ -34,7 +36,7 @@ router.get('/user/:userId', authenticate, authorize('admin'), getResultsByUserId
 // @route   GET /api/results/statistics
 // @desc    Get statistics report of all predictions
 // @access  Public
-router.get('/statistics', authenticate, authorize('admin'), getStatistics);
+router.get('/stats', authenticate, authorize('admin'), getStatistics);
 
 // @route   GET /api/results/stats/:period
 // @desc    Get time-based statistics (daily, weekly, monthly, yearly) (admin only)
@@ -45,5 +47,11 @@ router.get('/stats/:period', authenticate, authorize('admin'), getTimeBasedStats
 // @desc    Get results by specific prediction type
 // @access  Public
 router.get('/prediction/:prediction', authenticate, authorize('admin'), getResultsByPrediction);
+
+// @route   GET /api/results/date
+// @desc    Get results by date range
+// @access  Private (admin only)
+router.get('/date', authenticate, authorize('admin'), getResultsByDateRange);
+router.get('/download-report', generateAndDownloadPDFReport);
 
 module.exports = router;

@@ -10,14 +10,8 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 5001; // Changed to 5000 to avoid conflict with typical frontend ports
 
-// Comprehensive CORS configuration
 const corsOptions = {
-  origin: [
-    'http://localhost:3000',   // React default
-    'http://localhost:5173',   // Vite default
-    'http:// 172.20.10.4',   // Localhost alternative
-    'http://localhost:8080'    // Another common port
-  ],
+  origin: '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
@@ -38,7 +32,7 @@ app.use((req, res, next) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/results', resultRoutes);
 app.use('/api/users', userRoutes);
-// MongoDB Connection with improved error handling
+// MongoDB Connection with improved error handlinga
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
